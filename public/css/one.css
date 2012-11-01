@@ -576,3 +576,21 @@ input.button.green:active, a.button.green:active {
     font-style: normal;
 
 }
+.peg {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+
+}
+.red {
+    background-color:red;
+}
+.yellow {
+    background-color: yellow;
+}
+.green {
+    background-color: green;
+}
+.blue {
+    background-color: blue;
+}
