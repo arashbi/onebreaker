@@ -43,11 +43,11 @@
   [id]
   (str "//label[@id='" id "-label']/span"))
 
-(defmethod render-form-field [:empty :editing] [{:keys [id]}]
-  (fx/label-move-up (label-xpath id)))
+;(defmethod render-form-field [:empty :editing] [{:keys [id]}]
+;  (fx/label-move-up (label-xpath id)))
 
-(defmethod render-form-field [:editing :empty] [{:keys [id]}]
-  (fx/label-move-down (label-xpath id)))
+;(defmethod render-form-field [:editing :empty] [{:keys [id]}]
+;  (fx/label-move-down (label-xpath id)))
 
 (defmethod render-form-field [:editing-valid :valid] [{:keys [id]}]
   (fx/label-fade-out (label-xpath id)))
