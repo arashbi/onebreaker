@@ -49,11 +49,11 @@
 ;(defmethod render-form-field [:editing :empty] [{:keys [id]}]
 ;  (fx/label-move-down (label-xpath id)))
 
-(defmethod render-form-field [:editing-valid :valid] [{:keys [id]}]
-  (fx/label-fade-out (label-xpath id)))
+;(defmethod render-form-field [:editing-valid :valid] [{:keys [id]}]
+;  (fx/label-fade-out (label-xpath id)))
 
-(defmethod render-form-field [:valid :editing-valid] [{:keys [id]}]
-  (play (label-xpath id) fx/fade-in))
+;(defmethod render-form-field [:valid :editing-valid] [{:keys [id]}]
+;  (play (label-xpath id) fx/fade-in))
 
 (defmethod render-form-field [:editing :error] [{:keys [id error]}]
   (let [error-element (by-id (str id "-error"))]
@@ -100,11 +100,7 @@
     (event/listen field
                   "keyup"
                   #(dispatch/fire [:field-changed field-id] (value field)))
-    (event/listen keyboard
-                  "key"
-                  (fn [e] (when (= (.-keyCode e) key-codes/ENTER)
-                           (do (.blur (by-id "name-input") ())
-                               (dispatch/fire :form-submit)))))))
+                               ))
 
 (defmulti render
   "Accepts a map which represents the current state of the application
@@ -113,11 +109,7 @@
 
 (defmethod render :init [_]
   (fx/initialize-views (:form snippets) (:greeting snippets))
-  (add-input-event-listeners "name-input")
-  (event/listen (by-id "greet-button")
-                "click"
-                #(dispatch/fire :greeting
-                                {:name (value (by-id "name-input"))})))
+  )
 
 (defmethod render :form [{:keys [state error name]}]
   (fx/show-form)

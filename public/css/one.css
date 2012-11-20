@@ -594,3 +594,10 @@ input.button.green:active, a.button.green:active {
 .blue {
     background-color: blue;
 }
+#drop-target {
+    position: absolute;
+    background-color:white;
+    width: 150px;
+    height: 50px;
+    left: 200px;
+}

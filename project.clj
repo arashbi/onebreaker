@@ -9,7 +9,8 @@
                  [org.clojure/google-closure-library "0.0-790"]]
   :dev-dependencies [[jline "0.9.94"]
                      [marginalia "0.7.0-SNAPSHOT"]
-                     [lein-marginalia "0.7.0-SNAPSHOT"]]
+                     [lein-marginalia "0.7.0-SNAPSHOT"]
+                     [lein-ritz "0.5.0"]]
   :git-dependencies [["https://github.com/clojure/clojurescript.git"
                       "886d8dc81812962d30a741d6d05ce9d90975160f"]
                      ["https://github.com/levand/domina.git"
