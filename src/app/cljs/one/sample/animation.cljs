@@ -26,7 +26,6 @@
     (set-html! content form-html)
     (append! content greeting-html)
     ;; Required for IE8 to work correctly
-    (style/setOpacity (single-node (xpath label)) 1)
     (set-styles! (xpath cloud) {:opacity "0" :display "none" :margin-top "-500px"})
     (set-styles! (by-id "greet-button") {:opacity "0.2" :disabled true})
     (play form form-in {:after #(.focus (by-id "name-input") ())})))
@@ -78,7 +77,6 @@
   []
   (let [e {:effect :fade :end 0 :time 500}]
     (play-animation #(parallel (bind form e)
-                               (bind label e) ; Since the label won't fade in IE
                                (bind cloud
                                      {:effect :color :time 500} ; Dummy animation for delay purposes
                                      {:effect :fade-in-and-show :time 600}))
