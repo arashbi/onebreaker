@@ -11,8 +11,8 @@
   "Start a browser-connected REPL and launch a browser to talk to it."
   []
   (dev/run-server)
-  (future (Thread/sleep 3000)
-          (browse/browse-url "http://localhost:8080/development"))
+ ; (future (Thread/sleep 3000)
+ ;         (browse/browse-url "http://localhost:8080/development"))
   (tools/cljs-repl))
 
 (defn dev-server

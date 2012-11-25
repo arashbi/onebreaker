@@ -10,10 +10,10 @@
                  (.addTarget drag drop)
                  (.init drag)
                  (.init drop)
-                  (map #(events/listen drag (first %) (second %))
+                  (map #(events/listen drag (core/name (first %)) (second %))
                        (first events))
                   ))
-(make-draggable :yellow :drop-target {"dragstart" #(dom/log "dragged1")})
+(make-draggable :blue :drop-target {"dragstart" #(dom/log "dragged1")})
 (events/listen (dom/get-element :blue) "click" #(dom/log "clicked"))
 (events/listen (dom/get-element :yellow) "dragstart" #(dom/log "dragge1111d"))
 
