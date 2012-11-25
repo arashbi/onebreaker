@@ -4,13 +4,21 @@
             [clojure.browser.dom :as dom]
             [cljs.core :as core]))
   
-(defn make-draggable [id {:keys target id &listeners} ]
+(defn make-draggable [id target & events]
                 (let [drag  (goog.fx.DragDrop. (core/name id) "")
                       drop  (goog.fx.DragDrop. (core/name target) "")]
-                  (.addTarget drag drop)
-                  (.init drag)
-                  (.init drop)
-                 ;(events/listen drag "dragstart" #(dom/log "salam"))
+                 (.addTarget drag drop)
+                 (.init drag)
+                 (.init drop)
+                  (map #(events/listen drag (first %) (second %))
+                       (first events))
                   ))
-(make-draggable "blue" {:target "drop-target"})
-(events/listen (dom/get-element :yellow) "click" #(dom/log "clicked"))
+(make-draggable :yellow :drop-target {"dragstart" #(dom/log "dragged1")})
+(events/listen (dom/get-element :blue) "click" #(dom/log "clicked"))
+(events/listen (dom/get-element :yellow) "dragstart" #(dom/log "dragge1111d"))
+
+(defn f[drag target & events]
+  (map #(print %1 "\n") (first events)))
+
+(map #(let [[name age] %1]  (print  "name" name  age "\n")) {:arash :40 :ooldooz 28})
+(f "bbbb" :aaa {"a" "b" "v" "d"})
