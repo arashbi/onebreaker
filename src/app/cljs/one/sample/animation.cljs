@@ -4,9 +4,11 @@
   (:use [one.core :only (start)]
         [one.browser.animation :only (bind parallel serial play play-animation)]
         [domina :only (by-id set-html! set-styles! destroy-children! append! single-node)]
-        [domina.xpath :only (xpath)])
+        [domina.xpath :only (xpath)]
+        )
   (:require [goog.dom.forms :as gforms]
-            [goog.style :as style]))
+            [goog.style :as style]
+            [one.sample.dragdrop :as dd]))
 
 (def form "//div[@id='form']")
 (def cloud "//div[@id='greeting']")
@@ -28,13 +30,15 @@
     ;; Required for IE8 to work correctly
     (set-styles! (xpath cloud) {:opacity "0" :display "none" :margin-top "-500px"})
     (set-styles! (by-id "greet-button") {:opacity "0.2" :disabled true})
-    (play form form-in {:after #(.focus (by-id "name-input") ())})))
+    ;(dd/initialize-view)
+    ))
+
+;    (play form form-in {:after  #(dd/initialize-view)})))
 
 (comment ;; Try it
 
   (initialize-views (:form one.sample.view/snippets)
                     (:greeting one.sample.view/snippets))
-  
   )
 
 (defn label-move-up

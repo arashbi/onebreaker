@@ -9,7 +9,8 @@
             [goog.events.KeyHandler :as key-handler]
             [clojure.browser.event :as event]
             [one.dispatch :as dispatch]
-            [one.sample.animation :as fx]))
+            [one.sample.animation :as fx]
+            [one.sample.dragdrop :as dd]))
 
 (def ^{:doc "A map which contains chunks of HTML which may be used
   when rendering views."}
@@ -108,8 +109,7 @@
   :state)
 
 (defmethod render :init [_]
-  (fx/initialize-views (:form snippets) (:greeting snippets))
-  )
+  (fx/initialize-views (:form snippets) (:greeting snippets)))
 
 (defmethod render :form [{:keys [state error name]}]
   (fx/show-form)

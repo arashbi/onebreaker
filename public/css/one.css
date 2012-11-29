@@ -63,7 +63,9 @@ td {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  float: left;
 }
+
 #content ol, #content ul {
   list-style: none;
   list-style-position: outside;
@@ -303,8 +305,8 @@ h2 {
 
 #form {
   background: url('/images/form-background-gradient.png') center center no-repeat;
-  margin-top: -40px;
-  padding-top: 160px;
+  margin-top: -20px;
+  padding-top: 50px;
   height: 447px;
 }
 
@@ -582,6 +584,25 @@ input.button.green:active, a.button.green:active {
     border-radius: 20px;
 
 }
+
+.place-div{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color:white;
+    margin:3px;
+}
+.place {
+    width:200px;
+}
+.place table{
+    width: 100%;
+}
+.place td{
+    border-color: black;
+    border-width: 1px;
+    border-style: groove;
+}
 .red {
     background-color:red;
 }
@@ -595,9 +616,15 @@ input.button.green:active, a.button.green:active {
     background-color: blue;
 }
 #drop-target {
-    position: absolute;
-    background-color:white;
-    width: 150px;
-    height: 50px;
-    left: 200px;
+    float: right;
+    background-color: orangeRed;
+    width: 200px;
+    
+    right: 20px;
+    margin-right: 50px;
+    border-radius: 5px;
+}
+ 
+.source {
+    cursor : move;
 }
