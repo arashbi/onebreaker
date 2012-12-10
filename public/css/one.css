@@ -615,9 +615,15 @@ input.button.green:active, a.button.green:active {
 .blue {
     background-color: blue;
 }
+.orange {
+    background-color: orange;
+}
+.purple {
+    background-color: purple;
+}
 #drop-target {
     float: right;
-    background-color: orangeRed;
+    background-color: #CCCC00;
     width: 200px;
     
     right: 20px;

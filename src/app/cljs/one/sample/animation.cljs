@@ -29,9 +29,7 @@
     (append! content greeting-html)
     ;; Required for IE8 to work correctly
     (set-styles! (xpath cloud) {:opacity "0" :display "none" :margin-top "-500px"})
-    (set-styles! (by-id "greet-button") {:opacity "0.2" :disabled true})
-    ;(dd/initialize-view)
-    ))
+    (set-styles! (by-id "greet-button") {:opacity "0.2" :disabled true})))
 
 ;    (play form form-in {:after  #(dd/initialize-view)})))
 

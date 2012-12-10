@@ -3,48 +3,69 @@
             [goog.events :as events]
             [clojure.browser.dom :as dom]
             [cljs.core :as core]
-            [goog.dom :as dom]))
-(def draggables [:green :yellow :blue :red])
-(defn make-draggable [id target & events]
-  (let [drag  (goog.fx.DragDrop. (core/name id) "")
-        drop  (goog.fx.DragDrop. (core/name target) "")]
-    (.addTarget drag drop)
-    (.init drag)
-    (.init drop)
-    (map #(events/listen drag (core/name (first %)) (second %))
-         (first events))))
-(defn make-draggable [id target]
-  (let [drag (goog.fx.DragDrop. (core/name id))]
-    (.addTarget drag target)
+            [goog.dom :as dom]
+            [domina :as domina]))
+(defn make-draggable [elm]
+  (let [drag (goog.fx.DragDrop. (core/name elm) "")]
     (.setSourceClass drag "source")
-    (.init drag)
     drag))
-(defn initialize-view []
-  (dom/log "creating draggables")
-  (def drop-target (goog.fx.DragDrop. "drop-target"))
-  (def green (make-draggable :green drop-target))
-  (def yellow (make-draggable :yellow drop-target))
-  (def red (make-draggable "red" drop-target))
-  (def blue (make-draggable :blue drop-target))
-  (events/listen drop-target "drop" #(dom/log "Bang"))
-  (.init drop-target))
+(def target-objects (atom #{}))
+(def draggables (map #(make-draggable %) [:green :yellow :blue :red :orange :purple]))
+(def  pass (atom 1))
+
+(defn- make-target [o]
+  (goog.fx.DragDrop. o ""))
+
+(defn- action [event]
+  (.log js/console  (. event -target))
+  (.log js/console  (. event -dropTargetItem))
+  (.log js/console  (. event -dragSourceItem))
+  (domina/set-styles! (. event -dropTargetItem.element)
+                      {:background-color (. event -dragSourceItem.element.id)})
+  (.log js/console (events/unlisten (. event -target) "drop" action))
+  ;(swap! target-objects disj (. event -target))
+  ;(if (empty? target-objects)
+  ;  (doall
+  ;   (score)
+  ;   (prepare-pass (swap! pass + 1))))
+  )
+
 (defn prepare-pass [number]
-  (let [targets (take 4 (drop (* 4 (- number 1)) (dom/getElementsByClass "place-div")))
-       target-objects (map #(goog.fx.DragDrop. %1) targets)]
-    (map #(make-draggable %1 %2) draggables target-objects)
-    (map (register-listener % "drop" #(dom/log "sss")) target-objects)
-    ))
+  (let [targets (take 4 (drop (* 4 (- number 1))
+                              (dom/getElementsByClass "place-div")))]
+    (swap!  target-objects (union (map #(make-target %) targets)))
+    (doseq [drag draggables target @target-objects]
+      (.addTarget drag target))
+    (doseq [[x y] (map list draggables @target-objects)]
+      (register-listener x y "drop"))
+    (doseq [t  (concat draggables @target-objects)]
+      (.init t))))
+
+(defn dragend
+  []
+  (.log js/console "dragend"))
+
 (defn- register-listener
-  [target event action]
-  (events/listen target event action))
-(comment 
-  (make-draggable :blue :drop-target {"dragstart" #(dom/log "dragged1")})
-  (events/listen (dom/get-element :blue) "click" #(dom/log "clicked"))
-  (events/listen (dom/get-element :yellow) "dragstart" #(dom/log "dragge1111d"))
-  (initialize-view)
-  (defn f[drag target & events]
-    (map #(print %1 "\n") (first events)))
-  
-  (map #(let [[name age] %1]  (print  "name" name  age "\n")) {:arash :40 :ooldooz 28})
-  (f "bbbb" :aaa {"a" "b" "v" "d"})
+  [drag drop event]
+  (print drag drop event)
+  (events/listen drag "dragstart" #(.log js/console "dragged"))
+  (events/listen drop "drop" action)
+  (events/listen drag "dragend" dragend))
+
+(comment
+  (prepare-pass 1)
+  (def number 1)
+  (def targets (take 4 (drop (* 4 (- number 1)) (dom/getElementsByClass "place-div"))))
+  (def target-objects (map #(make-target %) targets))
+  (for [drag draggables target target-objects]
+    (.addTarget drag target))
+  (map #(.init %)  draggables)
+  (map #(.init %) target-objects)
+  (def drag (second draggables))
+  (def t (make-target  (first (dom/getElementsByClass "place-div"))))
+  (.addTarget drag t)
+  (.init drag)
+  (.init t)
+  (.log js/console "sss")
+  (events/unlisten (second draggables) "dragend" dragend)
   )
